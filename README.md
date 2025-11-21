@@ -95,11 +95,11 @@ DB_PASSWORD=
 ```shell
 cd {项目名称}
 
-#  dcat-admin plus版 (杨光维护)
-composer require dcat-plus/laravel-admin
+#  dcat-admin plus版 
+composer require toproplus/dcat-plus-admin
 
 # 或指定版本号
-composer require dcat-plus/laravel-admin:1.3.7
+composer require toproplus/dcat-plus-admin:1.4.4
 
 ```
 

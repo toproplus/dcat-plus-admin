@@ -1,6 +1,6 @@
 {
     "name": "toproplus/dcat-plus-admin",
-    "description": "dcat-plus admin",
+    "description": "Respect dcat-plus admin",
     "type": "library",
     "keywords": ["dcat","saas", "laravel", "admin", "grid", "form", "laravel saas admin"],
     "homepage": "https://github.com/toproplus/dcat-plus-admin",
