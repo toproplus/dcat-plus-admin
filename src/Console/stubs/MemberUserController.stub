@@ -128,8 +128,7 @@ class MemberUserController extends AdminController
                     ->maxLength(20);
             }
             $form->password('password_confirmation','确认密码')
-                ->same('password')
-                ->required();
+                ->same('password');
 
             $form->ignore(['password_confirmation']);
             $form->saving(function (Form $form) {

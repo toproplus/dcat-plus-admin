@@ -47,17 +47,5 @@ Admin::menu(function (\Dcat\Admin\Layout\Menu $menu) {
             'uri'       => 'web-config',
             'parent_id' => 0,
         ],
-        [
-            'id'        => 4,
-            'title'     => '开放接口文档',
-            'icon'      => 'feather icon-layers',
-            'uri'       => '/openapi-docs',
-            'parent_id' => 0,
-        ]
-]);
-});
-
-// 平台客服
-admin_inject_section(Admin::SECTION['BODY_INNER_AFTER'], function () {
-    return view('admin::layouts.kefu');
+    ]);
 });

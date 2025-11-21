@@ -51,7 +51,7 @@ class Grid
     public static string $defaultDateTimeDisplayFormat = 'Y-m-d H:i:s';
 
     public static string $defaultTimeDisplayFormat = 'H:i:s';
-    
+
     /**
      * The grid data model instance.
      *
@@ -176,7 +176,7 @@ class Grid
         'table_collapse'      => true,
         'toolbar'             => true,
         'create_mode'         => self::CREATE_MODE_DEFAULT,
-        'dialog_form_area'    => ['700px', '670px'],
+        'dialog_form_area'    => ['700px', '95%'],
         'table_class'         => ['table', 'custom-data-table', 'data-table'],
         'scrollbar_x'         => false,
         'actions_class'       => null,

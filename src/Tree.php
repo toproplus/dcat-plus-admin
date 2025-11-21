@@ -101,7 +101,7 @@ class Tree implements Renderable {
     /**
      * @var array
      */
-    public $dialogFormDimensions = ['700px', '670px'];
+    public $dialogFormDimensions = ['700px', '95%'];
 
     /**
      * @var bool
@@ -337,7 +337,7 @@ class Tree implements Renderable {
         $this->draggable_autosave = $value;
         return $this;
     }
-    
+
     public function setCreateBtnTxt($txt){
         $this->createBtnTxt = $txt;
         return $this;
@@ -618,7 +618,7 @@ class Tree implements Renderable {
         $url = $this->url . '/create';
         $new = trans('admin.new');
         if(!empty($this->createBtnTxt)){
-            $new = $this->createBtnTxt; 
+            $new = $this->createBtnTxt;
         }
         $quickBtn = $btn = '';
         if ($this->useCreate) {

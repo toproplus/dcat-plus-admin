@@ -129,10 +129,10 @@
         <div class="content-front"></div>
         <div class="login-description">
             <p class="lead">
-                专注于Laravel项目的极速开发
+                {{ config('admin.slogan') }}
             </p>
             <p>
-                速码邦
+                {{ config('admin.name') }}
             </p>
         </div>
     </div>
@@ -171,7 +171,7 @@
                                                 class="form-control {{ $errors->has('username') ? 'is-invalid' : '' }}"
                                                 name="username"
                                                 placeholder="{{ trans('admin.username') }}"
-                                                value="admin"
+                                                value=""
                                                 required
                                                 autofocus
                                         >
@@ -202,7 +202,7 @@
                                                 name="password"
                                                 placeholder="{{ trans('admin.password') }}"
                                                 required
-                                                value="admin"
+                                                value=""
                                                 autocomplete="current-password"
                                         >
 

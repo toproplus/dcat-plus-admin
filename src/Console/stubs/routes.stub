@@ -13,7 +13,7 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index');
-    $router->resource('/member-user',MemberUserController::class);
+    $router->resource('/member-user', MemberUserController::class);
 
     # 开放接口
     $router->get('openapi-docs', 'OpenApiDocsController@index');

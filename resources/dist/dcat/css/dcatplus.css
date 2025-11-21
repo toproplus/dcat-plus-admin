@@ -1128,7 +1128,7 @@
 /* end setp form*/
 
 /*固定grid 表头*/
-.fixed-header-table thead th {
+/*.fixed-header-table thead th {
     position: sticky;
     top: 60px;
     background: #ececf1;
@@ -1141,4 +1141,12 @@
     background:#ececf1;
     z-index: 2;
     box-shadow:0 2px 4px rgba(e,0,0,0.1);
+}*/
+/* 为表头实现吸顶效果 */
+#grid-table > thead > tr > th {
+    position: sticky;
+    top: 60px;
+    background-color: #f8f9fa;
+    z-index: 33;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }

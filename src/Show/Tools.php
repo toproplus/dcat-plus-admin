@@ -67,7 +67,7 @@ class Tools implements Renderable
     /**
      * @var array
      */
-    protected $dialogFormDimensions = ['700px', '670px'];
+    protected $dialogFormDimensions = ['700px', '95%'];
 
     /**
      * Tools constructor.
