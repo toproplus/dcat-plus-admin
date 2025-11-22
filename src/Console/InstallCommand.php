@@ -462,7 +462,11 @@ class InstallCommand extends Command {
         $guardsPos = strpos($content, "'guards' => [");
         $providersPos = strpos($content, "'providers' => [");
         $passwordsPos = strpos($content, "'passwords' => [");
-        if ($guardsPos !== false) {
+        $trimContent = str_replace(["\n", "\t", "\r\n", "\r\t", ' '], '', $content);
+        $guardsAdminApiPos = strpos($trimContent, "'adminapi'=>[");
+        $providersAdminUsersPos = strpos($trimContent, "'admin_users'=>[");
+        $providerAdminUsersPos = strpos($trimContent, "'admin_users'=>['provider'=>'admin_users'");
+        if ($guardsPos !== false && $guardsAdminApiPos === false) {
             $inserts = "\n        'memberapi' => [\n            'driver' => 'jwt',\n            'provider' => 'member_users',\n        ],";
             $inserts .= "\n        'adminapi' => [\n            'driver' => 'jwt',\n            'provider' => 'admin_users',\n        ],";
             $content = $this->insertAfter(
@@ -472,8 +476,7 @@ class InstallCommand extends Command {
                 $guardsPos
             );
         }
-
-        if ($providersPos !== false) {
+        if ($providersPos !== false && $providersAdminUsersPos === false) {
             $provider_insert = "\n        'member_users' => [\n            'driver' => 'eloquent',\n            'model' => App\Models\MemberUser::class,\n        ],";
             $provider_insert .= "\n        'admin_users' => [\n            'driver' => 'eloquent',\n            'model' => App\Models\AdminUser::class,\n        ],";
 
@@ -485,7 +488,7 @@ class InstallCommand extends Command {
             );
         }
 
-        if ($passwordsPos !== false) {
+        if ($passwordsPos !== false && $providerAdminUsersPos === false) {
             $password_insert = "\n        'member_users' => [\n            'provider' => 'member_users',\n            'table' => 'password_resets',\n            'expire' => 60,\n            'throttle' => 60,\n        ],";
             $password_insert .= "\n        'admin_users' => [\n            'provider' => 'admin_users',\n            'table' => 'password_resets',\n            'expire' => 60,\n            'throttle' => 60,\n        ],";
             $content = $this->insertAfter(
