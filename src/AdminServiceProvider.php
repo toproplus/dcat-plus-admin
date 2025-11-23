@@ -58,6 +58,7 @@ class AdminServiceProvider extends ServiceProvider {
         Console\ExtensionDiableCommand::class,
         Console\ExtensionUpdateCommand::class,
         Console\UpdateCommand::class,
+        Console\SeedAppCommand::class,
     ];
 
     /**

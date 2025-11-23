@@ -38,6 +38,8 @@ class Menu extends Model implements Sortable
      */
     protected $fillable = ['parent_id', 'order', 'title', 'icon', 'uri', 'extension', 'show'];
 
+    protected static $_app = 'admin';
+
     /**
      * Create a new Eloquent model instance.
      *
@@ -50,13 +52,23 @@ class Menu extends Model implements Sortable
         $this->init();
     }
 
+    public static function _setApp($name)
+    {
+        self::$_app = $name;
+    }
+
+    protected static function _config($key)
+    {
+        return config(sprintf('%s.%s',self::$_app, $key));
+    }
+
     protected function init()
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = self::_config('database.connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.menu_table'));
+        $this->setTable(self::_config('database.menu_table'));
     }
 
     /**
@@ -66,18 +78,18 @@ class Menu extends Model implements Sortable
      */
     public function roles(): BelongsToMany
     {
-        $pivotTable = config('admin.database.role_menu_table');
+        $pivotTable = self::_config('database.role_menu_table');
 
-        $relatedModel = config('admin.database.roles_model');
+        $relatedModel = self::_config('database.roles_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'menu_id', 'role_id')->withTimestamps();
     }
 
     public function permissions(): BelongsToMany
     {
-        $pivotTable = config('admin.database.permission_menu_table');
+        $pivotTable = self::_config('database.permission_menu_table');
 
-        $relatedModel = config('admin.database.permissions_model');
+        $relatedModel = self::_config('database.permissions_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'menu_id', 'permission_id')->withTimestamps();
     }
@@ -122,7 +134,7 @@ class Menu extends Model implements Sortable
      */
     public static function withPermission()
     {
-        return config('admin.menu.bind_permission') && config('admin.permission.enable');
+        return self::_config('menu.bind_permission') && self::_config('permission.enable');
     }
 
     /**
@@ -132,7 +144,7 @@ class Menu extends Model implements Sortable
      */
     public static function withRole()
     {
-        return (bool) config('admin.permission.enable');
+        return (bool) self::_config('permission.enable');
     }
 
     /**

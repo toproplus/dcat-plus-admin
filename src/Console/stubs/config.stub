@@ -11,7 +11,9 @@ return [
     | login page.
     |
     */
-    'name' => 'Dcat Admin',
+    'name' => env('ADMIN_NAME', 'Dcat Admin'),
+
+    'slogan' => env('ADMIN_SLOGAN', 'Respect Dcat-plus Admin'),
 
     /*
     |--------------------------------------------------------------------------
@@ -53,6 +55,16 @@ return [
 	 |
 	 */
 	'default_avatar' => '@admin/images/default-avatar.jpg',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Login page background image
+    |--------------------------------------------------------------------------
+    |
+    | This value is used to set the background image of login page.
+    |
+    */
+    'login_background_image' => '@admin/images/login-bg.jpg',
 
     /*
     |--------------------------------------------------------------------------
@@ -197,7 +209,7 @@ return [
     |--------------------------------------------------------------------------
     */
     'helpers' => [
-        'enable' => true,
+        'enable' => env('ADMIN_HELPERS_ENABLE', true),
     ],
 
     /*

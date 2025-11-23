@@ -27,6 +27,8 @@ class Administrator extends Model implements AuthenticatableContract, Authorizab
 
     protected $fillable = ['username', 'password', 'name', 'avatar'];
 
+    protected static $_app = 'admin';
+
     /**
      * Create a new Eloquent model instance.
      *
@@ -39,13 +41,23 @@ class Administrator extends Model implements AuthenticatableContract, Authorizab
         parent::__construct($attributes);
     }
 
+    public static function _setApp($name)
+    {
+        self::$_app = $name;
+    }
+
+    protected static function _config($key)
+    {
+        return config(sprintf('%s.%s',self::$_app, $key));
+    }
+
     protected function init()
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = self::_config('database.connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.users_table'));
+        $this->setTable(self::_config('database.users_table'));
     }
 
     /**
@@ -59,13 +71,13 @@ class Administrator extends Model implements AuthenticatableContract, Authorizab
 
         if ($avatar) {
             if (! URL::isValidUrl($avatar)) {
-                $avatar = Storage::disk(config('admin.upload.disk'))->url($avatar);
+                $avatar = Storage::disk(self::_config('upload.disk'))->url($avatar);
             }
 
             return $avatar;
         }
 
-        return admin_asset(config('admin.default_avatar') ?: '@admin/images/default-avatar.jpg');
+        return admin_asset(self::_config('default_avatar') ?: '@admin/images/default-avatar.jpg');
     }
 
     /**
@@ -75,9 +87,9 @@ class Administrator extends Model implements AuthenticatableContract, Authorizab
      */
     public function roles(): BelongsToMany
     {
-        $pivotTable = config('admin.database.role_users_table');
+        $pivotTable = self::_config('database.role_users_table');
 
-        $relatedModel = config('admin.database.roles_model');
+        $relatedModel = self::_config('database.roles_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'role_id')->withTimestamps();
     }

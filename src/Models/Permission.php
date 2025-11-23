@@ -22,6 +22,7 @@ class Permission extends Model implements Sortable
      * @var array
      */
     protected $fillable = ['parent_id', 'name', 'slug', 'http_method', 'http_path'];
+    protected static $_app = 'admin';
 
     /**
      * @var array
@@ -42,13 +43,23 @@ class Permission extends Model implements Sortable
         parent::__construct($attributes);
     }
 
+    public static function _setApp($name)
+    {
+        self::$_app = $name;
+    }
+
+    protected static function _config($key)
+    {
+        return config(sprintf('%s.%s',self::$_app, $key));
+    }
+
     protected function init()
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = self::_config('database.connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.permissions_table'));
+        $this->setTable(self::_config('database.permissions_table'));
     }
 
     /**
@@ -58,9 +69,9 @@ class Permission extends Model implements Sortable
      */
     public function roles(): BelongsToMany
     {
-        $pivotTable = config('admin.database.role_permissions_table');
+        $pivotTable = self::_config('database.role_permissions_table');
 
-        $relatedModel = config('admin.database.roles_model');
+        $relatedModel = self::_config('database.roles_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'permission_id', 'role_id');
     }
@@ -70,9 +81,9 @@ class Permission extends Model implements Sortable
      */
     public function menus(): BelongsToMany
     {
-        $pivotTable = config('admin.database.permission_menu_table');
+        $pivotTable = self::_config('database.permission_menu_table');
 
-        $relatedModel = config('admin.database.menu_model');
+        $relatedModel = self::_config('database.menu_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'permission_id', 'menu_id')->withTimestamps();
     }

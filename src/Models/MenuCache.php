@@ -9,6 +9,18 @@ trait MenuCache
 {
     protected $cacheKey = 'dcat-admin-menus-%d-%s';
 
+    protected static $_app = 'admin';
+
+    public static function _setApp($name)
+    {
+        self::$_app = $name;
+    }
+
+    protected static function _config($key)
+    {
+        return config(sprintf('%s.%s',self::$_app, $key));
+    }
+
     /**
      * Get an item from the cache, or execute the given Closure and store the result.
      *
@@ -49,7 +61,7 @@ trait MenuCache
      */
     public function enableCache()
     {
-        return config('admin.menu.cache.enable');
+        return self::_config('menu.cache.enable');
     }
 
     /**
@@ -59,6 +71,6 @@ trait MenuCache
      */
     public function getStore()
     {
-        return Cache::store(config('admin.menu.cache.store', 'file'));
+        return Cache::store(self::_config('menu.cache.store', 'file'));
     }
 }

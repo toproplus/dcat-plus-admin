@@ -17,6 +17,8 @@ class Role extends Model
 
     protected $fillable = ['name', 'slug'];
 
+    protected static $_app = 'admin';
+
     /**
      * {@inheritDoc}
      */
@@ -27,13 +29,23 @@ class Role extends Model
         parent::__construct($attributes);
     }
 
+    public static function _setApp($name)
+    {
+        self::$_app = $name;
+    }
+
+    protected static function _config($key)
+    {
+        return config(sprintf('%s.%s',self::$_app, $key));
+    }
+
     protected function init()
     {
-        $connection = config('admin.database.connection') ?: config('database.default');
+        $connection = self::_config('database.connection') ?: config('database.default');
 
         $this->setConnection($connection);
 
-        $this->setTable(config('admin.database.roles_table'));
+        $this->setTable(self::_config('database.roles_table'));
     }
 
     /**
@@ -43,9 +55,9 @@ class Role extends Model
      */
     public function administrators(): BelongsToMany
     {
-        $pivotTable = config('admin.database.role_users_table');
+        $pivotTable = self::_config('database.role_users_table');
 
-        $relatedModel = config('admin.database.users_model');
+        $relatedModel = self::_config('database.users_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'role_id', 'user_id');
     }
@@ -57,9 +69,9 @@ class Role extends Model
      */
     public function permissions(): BelongsToMany
     {
-        $pivotTable = config('admin.database.role_permissions_table');
+        $pivotTable = self::_config('database.role_permissions_table');
 
-        $relatedModel = config('admin.database.permissions_model');
+        $relatedModel = self::_config('database.permissions_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'role_id', 'permission_id')->withTimestamps();
     }
@@ -69,9 +81,9 @@ class Role extends Model
      */
     public function menus(): BelongsToMany
     {
-        $pivotTable = config('admin.database.role_menu_table');
+        $pivotTable = self::_config('database.role_menu_table');
 
-        $relatedModel = config('admin.database.menu_model');
+        $relatedModel = self::_config('database.menu_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'role_id', 'menu_id')->withTimestamps();
     }
@@ -109,7 +121,7 @@ class Role extends Model
         if (! $roleIds) {
             return collect();
         }
-        $related = config('admin.database.role_permissions_table');
+        $related = self::_config('database.role_permissions_table');
 
         $model = new static();
         $keyName = $model->getKeyName();

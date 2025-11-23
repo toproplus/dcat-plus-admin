@@ -98,9 +98,6 @@ cd {项目名称}
 #  dcat-admin plus版 
 composer require toproplus/dcat-plus-admin
 
-# 或指定版本号
-composer require toproplus/dcat-plus-admin:1.4.4
-
 ```
 
 然后运行下面的命令来发布资源：
@@ -132,16 +129,11 @@ location / {
 cd /path/to/laravel-project
 
 # 设置目录权限
-chmod -R 775 storage/
-chmod -R 775 bootstrap/cache/
+chmod -R 777 storage/
+chmod -R 777 bootstrap/cache/
 chmod -R 775 lang/
 chmod -R 755 public/
 
-
-# 设置文件所有者（假设运行用户为nginx或apache）
-chown -R nginx:nginx .  # 如果使用Nginx
-# 或
-chown -R apache:apache .  # 如果使用Apache
 ```
 
 ### 

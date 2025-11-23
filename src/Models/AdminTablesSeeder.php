@@ -6,6 +6,12 @@ use Illuminate\Database\Seeder;
 
 class AdminTablesSeeder extends Seeder
 {
+    protected static $_app = 'admin';
+
+    public static function _setApp($name)
+    {
+        self::$_app = $name;
+    }
     /**
      * Run the database seeds.
      *
@@ -16,6 +22,7 @@ class AdminTablesSeeder extends Seeder
         $createdAt = date('Y-m-d H:i:s');
 
         // create a user.
+        Administrator::_setApp(self::$_app);
         Administrator::truncate();
         Administrator::create([
             'username'   => 'admin',
@@ -25,6 +32,7 @@ class AdminTablesSeeder extends Seeder
         ]);
 
         // create a role.
+        Role::_setApp(self::$_app);
         Role::truncate();
         Role::create([
             'name'       => 'Administrator',
@@ -36,6 +44,7 @@ class AdminTablesSeeder extends Seeder
         Administrator::first()->roles()->save(Role::first());
 
         //create a permission
+        Permission::_setApp(self::$_app);
         Permission::truncate();
         Permission::insert([
             [
@@ -103,6 +112,7 @@ class AdminTablesSeeder extends Seeder
 //        Role::first()->permissions()->save(Permission::first());
 
         // add default menus.
+        Menu::_setApp(self::$_app);
         Menu::truncate();
         Menu::insert([
             [
@@ -163,6 +173,8 @@ class AdminTablesSeeder extends Seeder
             ],
         ]);
 
-        (new Menu())->flushCache();
+        $menu = new Menu();
+        $menu::_setApp(self::$_app);
+        $menu->flushCache();
     }
 }

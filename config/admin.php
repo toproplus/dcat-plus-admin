@@ -11,9 +11,9 @@ return [
     | login page.
     |
     */
-    'name' => 'Dcat-plus Admin',
+    'name' => env('ADMIN_NAME', 'Dcat Admin'),
 
-    'slogan' => 'Respect Dcat-plus Admin',
+    'slogan' => env('ADMIN_SLOGAN', 'Respect Dcat-plus Admin'),
 
     /*
     |--------------------------------------------------------------------------
